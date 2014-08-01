@@ -18,10 +18,6 @@ AWTW was created from stratch to avoid spams by adding Akismet support which mar
 
 The feedbacks are sent by AJAX, and the plugin has a backened panel for moderating Feedbacks where you can mark feedbacks as Spam, Approve or even delete them after reading.
 
-This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
-
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
 
 == Installation ==
 Installation is pretty simple.
