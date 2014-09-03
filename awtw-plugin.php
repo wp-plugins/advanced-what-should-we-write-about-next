@@ -1,7 +1,7 @@
 <?php 
 /* 
 Plugin Name: Advanced What to Write Next
-Version: 1.0.1
+Version: 1.0.2
 Author: Ritesh Sanap
 Description: A Plugin based and Inspired by "What Should We Write About Next" plugin by Vladimir prelovac, Which allows users to quickly leave feedback at the end of your posts.
 Author URI: http://www.best2know.info/
@@ -71,7 +71,7 @@ function awtw_plugin_html() {
 				<form id="awtw-feedback-form" method="POST">
 				<label class="feedback_title">'.$options['awtw_label_text'].'</label>
 				<label><input type="text" name="awtw-feedback-msg" id="awtw-feedback-msg"/>
-				<input type="submit" class="button" value="Send"/></label>
+				<input type="submit" class="button" value="Send" id="awtw-feedback-send-msg-btn"/></label>
 				<input type="hidden" name="awtw-feedback-nonce" value="'.wp_create_nonce().'"/>
 			</form>
 			</div>';
