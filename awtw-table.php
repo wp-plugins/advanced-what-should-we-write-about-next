@@ -207,18 +207,18 @@ class Awtw_Log_Table extends WP_List_Table {
     function column_feedback($item) {
         //$actions = array();
         if (isset($_GET['sub'])) {
-         $actions['mark_approve'] = sprintf('<a href="?page=%s&action=%s&feedback=%s" data-action="mark_approve" data-id="%3$s">Approve</a>', $_REQUEST['page'], 'approve', $item->id);   
+         $actions['mark_approve'] = sprintf('<a href="?page=%s&action=%s&feedback=%s" data-action="mark_approve" data-id="%3$s">%4$s</a>', $_REQUEST['page'], 'approve', $item->id, __('Approve', 'awtw_plugin'));   
         }
 
         if( isset($_GET['sub']) && $_GET['sub'] != 'pending' || !isset($_GET['sub'])) {
-        $actions['mark_pending'] = sprintf('<a href="?page=%s&action=%s&feedback=%s" data-action="mark_pending" data-id="%3$s">Pending</a>', $_REQUEST['page'], 'pending', $item->id); 
+        $actions['mark_pending'] = sprintf('<a href="?page=%s&action=%s&feedback=%s" data-action="mark_pending" data-id="%3$s">%4$s</a>', $_REQUEST['page'], 'pending', $item->id, __('Pending', 'awtw_plugin')); 
         }
 
        if( isset($_GET['sub']) && $_GET['sub'] != 'spams' || !isset($_GET['sub'])) {
-        $actions['mark_unapprove'] = sprintf('<a href="?page=%s&action=%s&feedback=%s" data-action="mark_spam" data-id="%3$s">Mark as Spam</a>',$_REQUEST['page'],'spam',$item->id);
+        $actions['mark_unapprove'] = sprintf('<a href="?page=%s&action=%s&feedback=%s" data-action="mark_spam" data-id="%3$s">%4$s</a>',$_REQUEST['page'],'spam',$item->id, __('Mark as Spam', 'awtw_plugin'));
         }
 
-        $actions['delete']  = sprintf('<a href="?page=%s&action=%s&feedback=%s" data-action="delete" data-id="%3$s">Delete</a>',$_REQUEST['page'],'delete',$item->id);
+        $actions['delete']  = sprintf('<a href="?page=%s&action=%s&feedback=%s" data-action="delete" data-id="%3$s">%4$s</a>',$_REQUEST['page'],'delete',$item->id, __('Delete', 'awtw_plugin'));
         //     $actions = array(
         //     'mark_pending' => sprintf('<a href="?page=%s&action=%s&feedback=%s" data-action="mark_pending" data-id="%3$s">Pending</a>', $_REQUEST['page'], 'pending', $item->id),
         //     'mark_approve' => sprintf('<a href="?page=%s&action=%s&feedback=%s" data-action="mark_approve" data-id="%3$s">Approve</a>', $_REQUEST['page'], 'approve', $item->id),
@@ -270,11 +270,11 @@ class Awtw_Log_Table extends WP_List_Table {
     function get_columns(){
         $columns = array(
             'cb'        => '<input type="checkbox" />', //Render a checkbox instead of text
-            'ip_address'     => 'IP Address',
-            'feedback'     => 'FeedBack',
-            'source_url'    => 'Source URL',
+            'ip_address'     => __('IP Address', 'awtw_plugin'),
+            'feedback'     => __('Feedback', 'awtw_plugin'),
+            'source_url'    => __('Source URL', 'awtw_plugin'),
            // 'director'  => 'Director',
-            'created_at' => 'Submitted on'
+            'created_at' => __('Submitted on', 'awtw_plugin')
         );
         return $columns;
     }
@@ -321,15 +321,15 @@ class Awtw_Log_Table extends WP_List_Table {
     function get_bulk_actions() {
 
         if (isset($_GET['sub'])) {
-            $actions['approve'] = 'Approve';
+            $actions['approve'] = __('Approve', 'awtw_plugin');
         }
         if( isset($_GET['sub']) && $_GET['sub'] != 'pending' || !isset($_GET['sub'])) {
-            $actions['pending'] = 'Pending';
+            $actions['pending'] = __('Pending', 'awtw_plugin');
         }
         if( isset($_GET['sub']) && $_GET['sub'] != 'spams' || !isset($_GET['sub'])) {
-            $actions['spam'] = 'Spam';
+            $actions['spam'] = __('Spam', 'awtw_plugin');
         }
-        $actions['delete'] = 'Delete';
+        $actions['delete'] = __('Delete', 'awtw_plugin');
         return $actions;
     }
 
@@ -351,7 +351,7 @@ class Awtw_Log_Table extends WP_List_Table {
             foreach ($feedback as $id) {
                 Awtw_DB::delete($id);
             }
-            $action_message ='Feedbacks deleted !';
+            $action_message = __('Feedbacks deleted !', 'awtw_plugin');
         }
 
         if( 'pending'===$this->current_action() ) {
@@ -360,7 +360,7 @@ class Awtw_Log_Table extends WP_List_Table {
             foreach ($feedback as $id) {
                 Awtw_DB::statusUpdate($id, 0);
             }
-            $action_message ='Feedbacks marked as pending !';
+            $action_message = __('Feedbacks marked as pending !', 'awtw_plugin');
         }
         if( 'approve'===$this->current_action() ) {
         
@@ -368,7 +368,7 @@ class Awtw_Log_Table extends WP_List_Table {
             foreach ($feedback as $id) {
                 Awtw_Akismet::submit($id, 'ham');
             }
-            $action_message = 'Feedbacks Approved!';
+            $action_message = __('Feedbacks Approved!', 'awtw_plugin');
         }
         if( 'spam'===$this->current_action() ) {
         
@@ -376,7 +376,7 @@ class Awtw_Log_Table extends WP_List_Table {
             foreach ($feedback as $id) {
                 Awtw_Akismet::submit($id, 'spam');
             }
-            $action_message ='Feedbacks marked as Spam !';
+            $action_message = __('Feedbacks marked as Spam !', 'awtw_plugin');
         }
        if(isset($action_message)) {
         echo '<div id="action_message" class="updated">'.$action_message.'</div>';
