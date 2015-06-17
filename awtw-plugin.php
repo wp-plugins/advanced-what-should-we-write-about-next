@@ -1,11 +1,13 @@
 <?php 
 /* 
 Plugin Name: Advanced What to Write Next
-Version: 1.0.2
+Version: 1.0.3
 Author: Ritesh Sanap
 Description: A Plugin based and Inspired by "What Should We Write About Next" plugin by Vladimir prelovac, Which allows users to quickly leave feedback at the end of your posts.
 Author URI: http://www.best2know.info/
 Plugin URI: http://wpden.net/advanced-write-next-wordpress-plugin/
+Text Domain: awtw_plugin
+Domain Path: /lang
 */
 /************************************************************************************/
 /*	Plugin Version	*/		
@@ -37,7 +39,7 @@ function awtw_install() {
 
 	// Default settings 
 	$args = array(
-	'awtw_label_text' => 'What should we write about next?',
+	'awtw_label_text' => __('What should we write about next?', 'awtw_plugin'),
 	'awtw_min_length' => 10,
 	'awtw_num_entry' => 10,
 	'awtw_post_content' => 1
@@ -161,13 +163,15 @@ function awtw_feedback_save_options($args){
 }	
 function awtw_feedback_options_page(){
 	echo '<div class="wrap">';
-	echo '<h2>Advanced What to write next ?</h2>';
+	echo '<h2>';
+	_e('Advanced What to write next ?', 'awtw_plugin');
+	echo '</h2>';
 
 	echo '<ul class="subsubsub">'; ?>
-	<li><a href="?page=<?php echo $_REQUEST['page']; ?>" class=" <?php echo !isset($_GET['sub']) ? ' current' : ''; ?>">Approved</a> <span class="count">(<?php echo Awtw_DB::count(2); ?>)</span>|</li>
-	<li><a href="?page=<?php echo $_REQUEST['page']; ?>&sub=spams" <?php if(isset($_GET['sub']) && $_GET['sub'] == 'spams') echo 'class="current"'; ?>>Spams</a> <span class="count">(<?php echo Awtw_DB::count(1); ?>)</span>|</li>
-	<li><a href="?page=<?php echo $_REQUEST['page']; ?>&sub=pending" <?php if(isset($_GET['sub']) && $_GET['sub'] == 'pending') echo 'class="current"'; ?>>Pending</a> <span class="count">(<?php echo Awtw_DB::count(0); ?>)</span>|</li>
-	<li><a href="?page=<?php echo $_REQUEST['page']; ?>&sub=settings" <?php if(isset($_GET['sub']) && $_GET['sub'] == 'settings') echo 'class="current"'; ?>>Settings</a></li>
+	<li><a href="?page=<?php echo $_REQUEST['page']; ?>" class=" <?php echo !isset($_GET['sub']) ? ' current' : ''; ?>"><?php _e('Approved', 'awtw_plugin'); ?></a> <span class="count">(<?php echo Awtw_DB::count(2); ?>)</span>|</li>
+	<li><a href="?page=<?php echo $_REQUEST['page']; ?>&sub=spams" <?php if(isset($_GET['sub']) && $_GET['sub'] == 'spams') echo 'class="current"'; ?>><?php _e('Spams', 'awtw_plugin'); ?></a> <span class="count">(<?php echo Awtw_DB::count(1); ?>)</span>|</li>
+	<li><a href="?page=<?php echo $_REQUEST['page']; ?>&sub=pending" <?php if(isset($_GET['sub']) && $_GET['sub'] == 'pending') echo 'class="current"'; ?>><?php _e('Pending', 'awtw_plugin'); ?></a> <span class="count">(<?php echo Awtw_DB::count(0); ?>)</span>|</li>
+	<li><a href="?page=<?php echo $_REQUEST['page']; ?>&sub=settings" <?php if(isset($_GET['sub']) && $_GET['sub'] == 'settings') echo 'class="current"'; ?>><?php _e('Settings', 'awtw_plugin'); ?></a></li>
 	<?php echo '</ul>';
 
 	if( isset($_GET['sub']) && $_GET['sub'] == 'settings') {
@@ -180,7 +184,9 @@ function awtw_feedback_options_page(){
 	
 
 	if(isset($_POST['awtw_save_options'])){
-		echo '<br/><br/><div id="message" class="updated"><p>Options updated.</p></div>';
+		echo '<br/><br/><div id="message" class="updated"><p>';
+		_e('Options updated.', 'awtw_plugin');
+		echo '</p></div>';
 		awtw_feedback_save_options($_POST);
 	}
 
@@ -188,36 +194,41 @@ function awtw_feedback_options_page(){
 	<form method="POST">
 		<table class="form-table">
 			<tr>
-				<th><label>Label Text:</label></th>
+				<th><label><?php _e('Label Text:', 'awtw_plugin'); ?></label></th>
 				<td> <input type="text" name="awtw_label_text" value="<?php echo $awtw_label_text; ?>" />
-					<p class="description">The Heading text shown above the form.</p>
+					<p class="description"><?php _e('The Heading text shown above the form.', 'awtw_plugin'); ?></p>
 				</td>
 			</tr>
 			<tr>
-				<th><label>Minimum Length:</label></th>
+				<th><label><?php _e('Minimum Length:', 'awtw_plugin') ?></label></th>
 				<td> <input type="number" name="awtw_min_length" min="1" value="<?php echo $awtw_min_length; ?>" />
-					<p class="description">Minimum Length of Characters Accepted in a Feedback. if the Minimum Length is not met then an "Feedback too Short!" error will be shown.</p>
+					<p class="description"><?php _e('Minimum Length of Characters Accepted in a Feedback. if the Minimum Length is not met then an "Feedback too Short!" error will be shown.', 'awtw_plugin'); ?></p>
 				</td>
 			</tr>
 			<tr>
-				<th><label>Number of Entries:</label></th>
+				<th><label><?php _e('Number of Entries:', 'awtw_plugin'); ?></label></th>
 				<td> <input type="number" name="awtw_num_entry"  min="1" value="<?php echo $awtw_num_entry; ?>" />
-					<p class="description">The Amount of Feedback entries shown on Admin page (eg: Approved/Pending/Spam etc.)</p>
+					<p class="description"><?php _e('The Amount of Feedback entries shown on Admin page (eg: Approved/Pending/Spam etc.)', 'awtw_plugin'); ?></p>
 				</td>
 			</tr>
 			<tr>
-				<th><label>Attach to Post content:</label></th>
+				<th><label><?php _e('Attach to Post content:', 'awtw_plugin'); ?></label></th>
 				<td> <label><input type="checkbox" name="awtw_post_content" value="1" <?php echo $awtw_post_content; ?>/> Automatically Display below the Post.</label>
-						<?php if($awtw_post_content == '') echo ' <p class="description">Auto display is disabled. Please add the following code in <code>single.php</code>, where you want to display the form.<br/><code>&lt;?php echo awtw_plugin_html(); &gt;</code> </p>' ?>
+						<?php if($awtw_post_content == '') {
+							echo ' <p class="description">';
+							_e('Auto display is disabled. Please add the following code in <code>single.php</code>, where you want to display the form.<br/><code>&lt;?php echo awtw_plugin_html(); &gt;</code>', 'awtw_plugin');
+							echo '</p>';
+						}
+						?> 
 				</td>
 			</tr>
 			<tr>
 				<th><label></label></th>
-				<td><input type="submit" value="Save Settings" name="awtw_save_options" class="button button-primary" /></td>
+				<td><input type="submit" value="<?php _e('Save Settings', 'awtw_plugin'); ?>" name="awtw_save_options" class="button button-primary" /></td>
 			</tr>
 		</table>
 	</form>
-<p class="help description">Have a problem? Suggestion or Need Help, just <a href="mailto:riteshsanap@gmail.com" target="_blank">contact me</a>.</p>
+<p class="help description"><?php printf(__('Have a problem? Suggestion or Need Help, just %s contact me%s.', 'awtw_plugin'), '<a href="mailto:riteshsanap@gmail.com" target="_blank">', '</a>'); ?></p>
 	
 	<?php 	} // end isset settings page.
 	echo '<form id="awtw_actions_bulk_action" method="POST">';
@@ -280,7 +291,7 @@ jQuery(document).ready(function($) {
 		var mark_action = $(this).data("action");
 		
 		if (mark_action === 'delete') {
-		 j =	confirm("Are you sure ? Once deleted, cannot be recovered.");
+		 j =	confirm("<?php _e('Are you sure ? Once deleted, cannot be recovered.', 'awtw_plugin'); ?>");
 		};
 
 		if ((mark_action != 'delete') || ( (mark_action === 'delete') && (j === true) ) ) {
